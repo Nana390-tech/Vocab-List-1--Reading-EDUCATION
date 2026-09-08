@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading Test 1 — The Science of Revision | B1+ Education</title>
+<style>
+/* ============================================================
+   READING TEST 1 — split-screen, computer-delivered IELTS style
+   Same Ink & Highlighter palette as Wordlist Quiz 1 (same series)
+   ============================================================ */
+:root{
+  --ink:#16204A; --ink-2:#2C3A6B; --paper:#FBFAF7; --card:#FFFFFF;
+  --slate:#6B7396; --rule:#E4E2DA;
+  --hl-1:#FFE94A; --hl-2:#7CE8C4; --hl-3:#FFA3C4; --hl-4:#FFC06B;
+  --hl-5:#C4B0FF; --hl-6:#8CD3FF; --hl-7:#C8ED6B;
+  --good:#0E8C6F; --good-bg:#E6F6F1; --bad:#D64545; --bad-bg:#FCECEC;
+  --display:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --read:Georgia,"Times New Roman",serif;
+  --mono:"Courier New",ui-monospace,monospace;
+  --ar:"Segoe UI",Tahoma,"Geeza Pro",sans-serif;
+  --bar:56px; --nav:60px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--display);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit}
+:focus-visible{outline:3px solid var(--hl-1);outline-offset:1px}
+
+/* ---------- top bar ---------- */
+.bar{
+  height:var(--bar);background:var(--ink);color:#fff;display:flex;align-items:center;
+  gap:16px;padding:0 16px;position:relative;z-index:20;
+}
+.bar h1{font-size:16px;font-weight:800;letter-spacing:-.02em;margin:0;white-space:nowrap}
+.bar .tag{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.65}
+.bar .sp{flex:1}
+.bar .short{display:none}
+.clock{
+  font-family:var(--mono);font-size:18px;font-weight:700;letter-spacing:.04em;
+  background:rgba(255,255,255,.1);padding:5px 12px;border:1px solid rgba(255,255,255,.25);
+}
+.clock.warn{background:var(--hl-4);color:var(--ink);border-color:var(--hl-4)}
+.clock.crit{background:var(--bad);color:#fff;border-color:var(--bad);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.55}}
+.barbtn{
+  background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;
+  font-size:12px;font-weight:600;padding:7px 12px;white-space:nowrap;
+}
+.barbtn:hover{background:rgba(255,255,255,.14)}
+.barbtn.on{background:var(--hl-1);color:var(--ink);border-color:var(--hl-1)}
+.barbtn.go{background:var(--hl-1);color:var(--ink);border-color:var(--hl-1);font-weight:800}
+
+/* ---------- split ---------- */
+.split{display:grid;grid-template-columns:var(--sx,50%) 10px minmax(0,1fr);height:calc(100% - var(--bar) - var(--nav))}
+.pane{overflow-y:auto;padding:24px 28px 40px;scroll-behavior:smooth;min-width:0;min-height:0}
+.pane.left{background:var(--card)}
+.divider{background:var(--ink);cursor:col-resize;position:relative;touch-action:none;user-select:none;border:none;padding:0}
+.divider::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:2px;height:36px;background:var(--hl-1);border-radius:2px;transition:height .15s,width .15s}
+.divider:hover::before,.divider.drag::before,.divider:focus-visible::before{height:72px}
+
+/* ---------- passage ---------- */
+.ptitle{font-size:clamp(22px,2.4vw,30px);font-weight:800;letter-spacing:-.035em;margin:0 0 4px;line-height:1.15}
+.pmeta{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);margin:0 0 20px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.para{display:flex;gap:14px;margin:0 0 18px}
+.plet{
+  font-family:var(--mono);font-weight:700;font-size:13px;flex:none;width:24px;height:24px;
+  border:1.5px solid var(--ink);display:grid;place-items:center;margin-top:3px;
+}
+.ptext{font-family:var(--read);font-size:17px;line-height:1.75;margin:0}
+mark.u{background:var(--hl-1);padding:1px 0}
+mark.ev{background:var(--hl-2);box-shadow:0 0 0 3px var(--hl-2);border-radius:2px}
+mark.vocab{background:var(--hl-3);padding:1px 0}
+.hlnote{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin:22px 0 0;border-top:1px dotted var(--rule);padding-top:10px}
+
+/* ---------- questions ---------- */
+.grp{margin:0 0 30px;scroll-margin-top:12px}
+.grp h2{font-size:17px;font-weight:800;letter-spacing:-.02em;margin:0 0 6px}
+.grp .instr{font-family:var(--read);font-size:15px;color:var(--ink-2);margin:0 0 14px;line-height:1.6}
+.grp .instr b{font-family:var(--display);font-weight:800;font-size:13.5px;letter-spacing:.02em}
+.hbox{border:1.5px solid var(--ink);padding:12px 14px;margin:0 0 16px;background:#F6F5F0}
+.hbox h4{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 8px;color:var(--slate);font-weight:700}
+.hbox ol{margin:0;padding:0;list-style:none}
+.hbox li{font-family:var(--read);font-size:15px;display:flex;gap:10px;padding:2px 0}
+.hbox li span{font-family:var(--mono);font-size:12px;font-weight:700;width:26px;flex:none;text-align:right}
+
+.q{display:flex;gap:12px;align-items:flex-start;padding:11px 12px;border:1.5px solid transparent;margin:0 0 6px;scroll-margin-top:12px}
+.q:hover{background:#FFFDF0}
+.q.focus{border-color:var(--ink);background:#FFFDF0}
+.q.ok{border-color:var(--good);background:var(--good-bg)}
+.q.no{border-color:var(--bad);background:var(--bad-bg)}
+.qn{font-family:var(--mono);font-size:13px;font-weight:700;width:26px;flex:none;margin-top:6px}
+.qb{flex:1;min-width:0}
+.qt{font-family:var(--read);font-size:16px;line-height:1.65;margin:0 0 8px}
+.qt b{font-family:var(--display);font-weight:700;font-size:15px}
+select,.tin{
+  border:1.5px solid var(--ink);background:#fff;font-size:15px;padding:7px 10px;color:var(--ink);
+  min-width:130px;max-width:100%;
+}
+.tin{font-family:var(--read);min-width:180px}
+select:disabled,.tin:disabled{opacity:1;background:#F6F5F0}
+.mcq{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.mo{display:flex;gap:10px;align-items:flex-start;text-align:left;background:#fff;border:1.5px solid var(--rule);padding:9px 12px;font-size:15px;color:var(--ink);line-height:1.45}
+.mo:hover:not(:disabled){border-color:var(--ink)}
+.mo .k{font-family:var(--mono);font-weight:700;font-size:12px;width:20px;height:20px;border:1.5px solid var(--ink);display:grid;place-items:center;flex:none;margin-top:1px}
+.mo.sel{border-color:var(--ink);background:#FFFDF0}
+.mo.right{border-color:var(--good);background:var(--good-bg)}
+.mo.right .k{background:var(--good);border-color:var(--good);color:#fff}
+.mo.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.mo.wrong .k{background:var(--bad);border-color:var(--bad);color:#fff}
+
+/* ---------- feedback ---------- */
+.fb{margin:9px 0 0;padding:10px 12px;background:#fff;border-left:4px solid var(--good);font-size:14.5px;line-height:1.55}
+.fb.no{border-left-color:var(--bad)}
+.fb .verdict{font-weight:800;margin-right:6px}
+.fb .verdict.g{color:var(--good)}
+.fb .verdict.b{color:var(--bad)}
+.evbtn{
+  border:1.5px solid var(--ink);background:var(--hl-2);font-size:11px;font-weight:700;
+  padding:5px 10px;margin-top:8px;letter-spacing:.02em;
+}
+.evbtn:hover{background:var(--ink);color:#fff}
+
+/* ---------- results ---------- */
+.res{border:2px solid var(--ink);padding:20px 22px;margin:0 0 26px;background:#fff}
+.res .row{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end}
+.res .n{font-size:52px;font-weight:800;letter-spacing:-.05em;line-height:.9}
+.res .n small{font-size:.34em;color:var(--slate)}
+.res .band{border:2px solid var(--ink);background:var(--hl-1);padding:10px 14px}
+.res .band .l{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.res .band .v{font-size:22px;font-weight:800;letter-spacing:-.03em}
+.res .meta{font-family:var(--mono);font-size:11px;color:var(--slate);line-height:1.8}
+.res .cap{font-family:var(--mono);font-size:10px;color:var(--slate);margin:12px 0 0;border-top:1px dotted var(--rule);padding-top:9px}
+.bt{display:flex;align-items:center;gap:10px;margin:5px 0 0}
+.bt .name{font-size:13px;width:150px;flex:none}
+.bt .track{flex:1;height:14px;background:#EFEDE6;border:1px solid var(--rule)}
+.bt .fill{display:block;height:100%}
+.bt .num{font-family:var(--mono);font-size:11px;width:38px;text-align:right;flex:none}
+
+/* ---------- vocab panel ---------- */
+.vocab{border:2px solid var(--ink);padding:16px 18px;margin:26px 0 0;background:#fff}
+.vocab h3{font-size:15px;font-weight:800;margin:0 0 4px}
+.vocab p.sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);margin:0 0 12px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-family:var(--read);font-size:15px;border:1.5px solid var(--ink);background:#fff;padding:5px 11px}
+.chip:hover{background:var(--hl-3)}
+.chip.on{background:var(--hl-3)}
+.gloss{margin:14px 0 0;padding:12px 14px;border:1px solid var(--rule);background:#F6F5F0;display:none}
+.gloss.show{display:block}
+.gloss .w{font-weight:800;font-size:17px}
+.gloss .pos{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--slate);margin-left:8px}
+.gloss .ar{font-family:var(--ar);font-size:19px;direction:rtl;display:block;margin:5px 0 6px;color:var(--ink-2)}
+.gloss .def{font-family:var(--read);font-size:15px;margin:0}
+
+/* ---------- bottom navigator ---------- */
+.nav{
+  height:var(--nav);border-top:2px solid var(--ink);background:var(--card);
+  display:flex;align-items:center;gap:10px;padding:0 14px;overflow-x:auto;
+}
+.nav .lab{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--slate);white-space:nowrap;flex:none}
+.dots{display:flex;gap:4px;flex:none}
+.dot{
+  width:30px;height:30px;border:1.5px solid var(--rule);background:#fff;flex:none;
+  font-family:var(--mono);font-size:12px;color:var(--slate);display:grid;place-items:center;padding:0;
+}
+.dot:hover{border-color:var(--ink)}
+.dot.done{background:var(--ink);color:#fff;border-color:var(--ink)}
+.dot.now{outline:2px solid var(--hl-1);outline-offset:-2px}
+.dot.ok{background:var(--good);border-color:var(--good);color:#fff}
+.dot.no{background:var(--bad);border-color:var(--bad);color:#fff}
+.nav .sp{flex:1;min-width:8px}
+
+/* ---------- start / overlay ---------- */
+.ov{position:fixed;inset:0;background:rgba(22,32,74,.93);z-index:60;display:grid;place-items:center;padding:20px;overflow-y:auto}
+.ovbox{background:var(--paper);border:2px solid var(--ink);max-width:620px;width:100%;padding:30px 32px;box-shadow:10px 10px 0 rgba(0,0,0,.25)}
+.ovbox h2{font-size:26px;font-weight:800;letter-spacing:-.035em;margin:0 0 4px;text-transform:lowercase}
+.ovbox .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);margin:0 0 18px}
+.ovbox p{font-family:var(--read);font-size:16px;line-height:1.65;margin:0 0 14px}
+.ovbox ul{font-family:var(--read);font-size:15px;line-height:1.7;margin:0 0 18px;padding-left:20px;color:var(--ink-2)}
+.field{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 18px}
+.field label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate)}
+.field input{border:none;border-bottom:2px solid var(--ink);background:transparent;font-size:18px;padding:5px 4px;min-width:210px;color:var(--ink)}
+.field input:focus{outline:none;background:#FFFBE0}
+.timeopt{display:flex;gap:8px}
+.timeopt button{border:1.5px solid var(--ink);background:#fff;font-family:var(--mono);font-size:12px;padding:7px 12px}
+.timeopt button.on{background:var(--ink);color:#fff}
+.btn{border:2px solid var(--ink);background:var(--ink);color:#fff;font-weight:700;font-size:15px;padding:11px 22px;transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--hl-1)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{box-shadow:4px 4px 0 var(--hl-2)}
+.btn.sm{font-size:13px;padding:8px 14px}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* ---------- narrow screens: stack the split, both panels still visible ---------- */
+@media (max-width:860px){
+  .split{grid-template-columns:minmax(0,1fr);grid-template-rows:var(--sy,44%) 12px minmax(0,1fr)}
+  .divider{cursor:row-resize}
+  .divider::before{width:36px;height:2px}
+  .divider:hover::before,.divider.drag::before,.divider:focus-visible::before{width:72px;height:2px}
+  .bar{gap:7px;padding:0 10px}
+  .bar h1{font-size:13px}
+  .bar .tag{display:none}
+  .bar .full{display:none}
+  .bar .short{display:inline}
+  .barbtn{padding:6px 9px;font-size:11px}
+  #clearhl{display:none}
+  .clock{font-size:15px;padding:4px 9px}
+  .pane{padding:18px 16px 30px}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+@media print{body{overflow:visible;height:auto}.bar,.nav,.divider,.noprint{display:none!important}.split{display:block;height:auto}.pane{overflow:visible;display:block!important}}
+
+#toast{position:fixed;left:50%;bottom:78px;transform:translateX(-50%) translateY(160%);visibility:hidden;
+  background:var(--ink);color:#fff;padding:11px 18px;font-size:14px;font-weight:600;z-index:80;transition:transform .3s,visibility .3s}
+#toast.show{visibility:visible;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <h1>Reading Test 1</h1>
+  <span class="tag">The Science of Revision · 20 questions</span>
+  <span class="sp"></span>
+  <button class="barbtn" id="hlbtn" title="Select text in the passage to highlight it"><span class="full">✎ Highlighter</span><span class="short">✎</span></button>
+  <button class="barbtn" id="clearhl">Clear</button>
+  <span class="clock" id="clock">15:00</span>
+  <button class="barbtn" id="pause">Pause</button>
+  <button class="barbtn go" id="submit"><span class="full">Submit answers</span><span class="short">Submit</span></button>
+</div>
+
+<div class="split" id="split">
+  <section class="pane left" id="left"></section>
+  <div class="divider" id="divider" role="separator" tabindex="0"
+       aria-label="Drag to resize the passage and question panels"
+       title="Drag to resize · double-click to reset"></div>
+  <section class="pane right" id="right"></section>
+</div>
+
+<div class="nav">
+  <span class="lab">Questions</span>
+  <div class="dots" id="dots"></div>
+  <span class="sp"></span>
+  <button class="btn ghost sm noprint" id="save">Save</button>
+  <button class="btn ghost sm noprint" id="load">Load</button>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="loadfile" accept=".json" style="display:none">
+<div class="ov" id="ov"></div>
+<script>
+/* =========================================================================
+   READING TEST 1 — "The Science of Revision"
+   Built on B1+ Vocabulary List 1 (Fall) "Education"
+   ========================================================================= */
+
+const TITLE = "The Science of Revision";
+
+const PARAS = [
+{L:"A",t:`Every year, thousands of students sit down with their notes open in front of them and read the same page again and again. Most of them feel they are working hard, and most of them are. Yet research now suggests that this familiar kind of revision is one of the least effective ways to prepare for an exam. The problem is not effort; it is method. Few students are ever given a proper explanation of how memory works, so they choose the strategy that feels easiest rather than the one that succeeds.`},
+{L:"B",t:`Dr Helen Marsh, who studies memory at a university in northern England, has spent twenty years on this question. In one study she asked two groups of students to prepare for the same test. The first group revised for four hours on a single evening. The second divided the same four hours into four short sessions spread across two weeks. A month later she counted how many facts each group could recall. Despite doing exactly the same amount of work, the second group remembered almost twice as much. Marsh calls this simple technique “spacing”.`},
+{L:"C",t:`A second finding is more surprising still. Professor Tarek Nasser has shown that students who close their books and attempt to recall information from memory learn more than students who read it a second time. Testing yourself is uncomfortable and it produces mistakes, which is precisely why it works. Nasser’s rule is a strict one: notes must be turned into questions, and the questions answered without looking. Students avoid this because it feels like failure, yet every failed attempt makes the memory stronger.`},
+{L:"D",t:`Method is not everything, however. Dr Lena Okoro argues that a student’s attitude matters almost as much as their technique. In her research, learners who believed that ability could be improved were far more likely to keep revising after a disappointing result, while those who saw ability as fixed often stopped trying altogether. Obviously no belief can replace study time, but Okoro’s findings suggest that ambition and method work together rather than separately.`},
+{L:"E",t:`A number of colleges are now acting on this evidence. Instead of punishing students for weak results, several institutions have introduced short weekly workshops in which students practise these techniques on real essay questions, guided by qualified study advisers. Students must register in advance, and there is no fee. Early reviews have been positive: attendance is voluntary, yet the sessions are full. As one student put it, the surprise was not that the methods worked, but that nobody had mentioned them before.`}
+];
+
+const HEADINGS = [
+ {r:"i",   t:"Colleges putting the research into practice"},
+ {r:"ii",  t:"How teachers are trained to mark exams"},
+ {r:"iii", t:"Why the most uncomfortable method is the best"},
+ {r:"iv",  t:"A common habit that does not work"},
+ {r:"v",   t:"The rising cost of private tuition"},
+ {r:"vi",  t:"Proof that short, separated study wins"},
+ {r:"vii", t:"What students believe about themselves"},
+ {r:"viii",t:"The danger of testing students too often"}
+];
+
+const NAMES = [
+ {r:"A",t:"Helen Marsh"},
+ {r:"B",t:"Tarek Nasser"},
+ {r:"C",t:"Lena Okoro"}
+];
+
+/* ---------------- Question groups ---------------- */
+const GROUPS = [
+{
+ type:"headings", title:"Questions 1–5",
+ instr:"The passage has five paragraphs, <b>A–E</b>. Choose the correct heading for each paragraph from the list of headings below. There are more headings than paragraphs.",
+ items:[
+  {n:1,label:"Paragraph A",a:"iv",
+   ev:"read the same page again and again",
+   why:"Paragraph A describes students re-reading their notes and explains that this familiar habit is one of the least effective methods. That is a common habit that does not work."},
+  {n:2,label:"Paragraph B",a:"vi",
+   ev:"divided the same four hours into four short sessions spread across two weeks",
+   why:"Paragraph B reports Marsh's study: the same four hours split into short sessions over two weeks produced far better memory. That is proof that separated study wins."},
+  {n:3,label:"Paragraph C",a:"iii",
+   ev:"Testing yourself is uncomfortable and it produces mistakes, which is precisely why it works",
+   why:"Paragraph C says self-testing is uncomfortable and produces mistakes, and that this is exactly the reason it works. Heading viii is a trap — the passage never warns against testing."},
+  {n:4,label:"Paragraph D",a:"vii",
+   ev:"learners who believed that ability could be improved were far more likely to keep revising",
+   why:"Paragraph D is about what learners believe about their own ability, and how that belief changes their behaviour after a poor result."},
+  {n:5,label:"Paragraph E",a:"i",
+   ev:"A number of colleges are now acting on this evidence",
+   why:"Paragraph E describes colleges introducing workshops based on the research — putting the findings into practice."}
+ ]
+},
+{
+ type:"tfng", title:"Questions 6–10",
+ instr:"Do the following statements agree with the information in the passage? Write <b>TRUE</b>, <b>FALSE</b> or <b>NOT GIVEN</b>.",
+ items:[
+  {n:6,label:"Professor Nasser believes that making mistakes while testing yourself is useful.",a:"TRUE",
+   ev:"every failed attempt makes the memory stronger",
+   why:"The passage says every failed attempt makes the memory stronger — that is exactly the statement, in different words. TRUE."},
+  {n:7,label:"Dr Marsh's two groups spent different amounts of time revising.",a:"FALSE",
+   ev:"Despite doing exactly the same amount of work",
+   why:"The passage says both groups did exactly the same amount of work — four hours each. The statement says the opposite, so FALSE, not NOT GIVEN."},
+  {n:8,label:"Dr Okoro carried out her research at the same university as Dr Marsh.",a:"NOT GIVEN",
+   ev:null,
+   why:"We are told where Marsh works (northern England) but nothing at all about where Okoro works. No information means NOT GIVEN — you cannot call it FALSE just because it sounds unlikely."},
+  {n:9,label:"Students generally prefer Nasser's method to reading their notes again.",a:"FALSE",
+   ev:"Students avoid this because it feels like failure",
+   why:"The passage says students avoid Nasser's method because it feels like failure. That contradicts the statement, so FALSE."},
+  {n:10,label:"According to Dr Okoro, technique is slightly more important than attitude.",a:"TRUE",
+   ev:"attitude matters almost as much as their technique",
+   why:"<i>Attitude matters almost as much as technique</i> means technique is still slightly ahead. The word <i>almost</i> is doing the work here, so TRUE."}
+ ]
+},
+{
+ type:"match", title:"Questions 11–13",
+ instr:"Look at the following statements and the list of researchers below. Match each statement with the correct researcher, <b>A</b>, <b>B</b> or <b>C</b>.",
+ items:[
+  {n:11,label:"conducted a study that continued over a number of weeks",a:"A",
+   ev:"four short sessions spread across two weeks",
+   why:"Marsh's study ran across two weeks and the groups were tested a month later, so it continued over a number of weeks."},
+  {n:12,label:"recommends a method that students find unpleasant",a:"B",
+   ev:"Testing yourself is uncomfortable",
+   why:"Nasser recommends self-testing, which the passage calls uncomfortable and says students avoid."},
+  {n:13,label:"examined how students' beliefs affect what they do",a:"C",
+   ev:"learners who believed that ability could be improved were far more likely to keep revising",
+   why:"Okoro studied what learners believed about ability and how that changed whether they kept revising."}
+ ]
+},
+{
+ type:"gap", title:"Questions 14–17",
+ instr:"Complete the sentences below. Choose <b>NO MORE THAN TWO WORDS</b> from the passage for each answer.",
+ items:[
+  {n:14,pre:"Marsh uses the term",post:"for study that is divided across a period of time.",a:"spacing",accept:["spacing"],
+   ev:"Marsh calls this simple technique",
+   why:"The passage ends paragraph B with the term Marsh gives the technique: <b>spacing</b>."},
+  {n:15,pre:"Nasser says that notes should be turned into",post:"and answered without looking.",a:"questions",accept:["questions"],
+   ev:"notes must be turned into questions",
+   why:"Copy the word exactly as it appears: <b>questions</b>, plural. Changing the form would lose the mark."},
+  {n:16,pre:"The college workshops are guided by",post:"study advisers.",a:"qualified",accept:["qualified"],
+   ev:"guided by qualified study advisers",
+   why:"<b>Qualified</b> — the adjective before <i>study advisers</i>. Two words maximum are allowed, but one is enough."},
+  {n:17,pre:"Students who attend the workshops are not asked to pay a",post:".",a:"fee",accept:["fee"],
+   ev:"there is no fee",
+   why:"The passage says there is no <b>fee</b>. Note the singular — <i>fees</i> would not match the wording of the text."}
+ ]
+},
+{
+ type:"mcq", title:"Questions 18–20",
+ instr:"Choose the correct letter, <b>A</b>, <b>B</b>, <b>C</b> or <b>D</b>.",
+ items:[
+  {n:18,label:"What does the writer suggest about students in paragraph A?",
+   opts:["They do not spend enough hours studying.","They pick a method for the wrong reason.","They are given too much work by teachers.","They do not care about their results."],a:1,
+   ev:"they choose the strategy that feels easiest rather than the one that succeeds",
+   why:"The writer states clearly that the problem is not effort but method: students choose what feels easiest, not what works. Option A is directly contradicted by <i>most of them are</i> working hard."},
+  {n:19,label:"What was the main difference between Marsh's two groups?",
+   opts:["the subject they were studying","the number of facts they were given","the way their study time was arranged","the length of the final test"],a:2,
+   ev:"The first group revised for four hours on a single evening",
+   why:"One group used a single evening, the other four short sessions over two weeks — the same total time, arranged differently."},
+  {n:20,label:"Why does the writer describe the college workshops as successful?",
+   opts:["They are compulsory for weaker students.","They cost the colleges very little to run.","They have replaced ordinary lectures.","Students are not forced to attend, but still fill them."],a:3,
+   ev:"attendance is voluntary, yet the sessions are full",
+   why:"The evidence is that attendance is voluntary and the sessions are still full. The word <i>yet</i> signals that this is the surprising, positive point."}
+ ]
+}
+];
+
+/* flat map of questions */
+const QS = [];
+GROUPS.forEach(g=>g.items.forEach(it=>QS.push(Object.assign({type:g.type},it))));
+const NQ = QS.length;
+
+/* ---------------- Wordlist words appearing in the passage ---------------- */
+const VOCAB = [
+ {w:"revision",  forms:["revision","revising"],   pos:"noun",       ar:"مراجعة الدروس", def:"The work of studying a subject again before taking a test"},
+ {w:"proper",    forms:["proper"],                pos:"adjective",  ar:"مناسب / صحيح",  def:"Correct or suitable"},
+ {w:"explanation",forms:["explanation"],          pos:"noun",       ar:"شرح / تفسير",   def:"The details or reasons that make something clear"},
+ {w:"session",   forms:["sessions"],              pos:"noun",       ar:"جلسة / حصة",    def:"A period during which you do one activity"},
+ {w:"count",     forms:["counted"],               pos:"verb",       ar:"يَعُدّ",         def:"To see how many people or things there are"},
+ {w:"despite",   forms:["Despite"],               pos:"preposition",ar:"على الرغم من",  def:"Although something happened or is true"},
+ {w:"surprising",forms:["surprising","surprise"], pos:"adjective",  ar:"مُفاجئ",        def:"Not expected, and making someone feel surprised"},
+ {w:"attempt",   forms:["attempt"],               pos:"verb / noun",ar:"يحاول / محاولة", def:"To try to do something"},
+ {w:"rule",      forms:["rule"],                  pos:"noun",       ar:"قاعدة / نظام",  def:"An official statement about what you must or must not do"},
+ {w:"strict",    forms:["strict"],                pos:"adjective",  ar:"صارم",          def:"Making sure that people behave well and do not break rules"},
+ {w:"attitude",  forms:["attitude"],              pos:"noun",       ar:"موقف / سلوك",   def:"How you think or feel about something"},
+ {w:"obviously", forms:["Obviously"],             pos:"adverb",     ar:"من الواضح",     def:"In a way that is easy to understand or see"},
+ {w:"ambition",  forms:["ambition"],              pos:"noun",       ar:"طموح",          def:"Something that you want to do in your life"},
+ {w:"punish",    forms:["punishing"],             pos:"verb",       ar:"يعاقب",         def:"To make someone suffer because they have done something bad"},
+ {w:"essay",     forms:["essay"],                 pos:"noun",       ar:"مقال",          def:"A short piece of writing about a subject, especially by a student"},
+ {w:"qualified", forms:["qualified"],             pos:"adjective",  ar:"مؤهَّل",         def:"Having passed exams or courses"},
+ {w:"register",  forms:["register"],              pos:"verb",       ar:"يسجّل",          def:"To put information about someone on an official list"},
+ {w:"fee",       forms:["fee"],                   pos:"noun",       ar:"رسوم",          def:"An amount of money that you pay to do or use something"},
+ {w:"review",    forms:["reviews"],               pos:"noun",       ar:"تقييم / مراجعة",def:"A piece of writing that gives an opinion about something"},
+ {w:"mention",   forms:["mentioned"],             pos:"verb",       ar:"يذكر",          def:"To speak or write a few words about something"}
+];
+
+/* ---------------- State ---------------- */
+let S = null;
+function newState(name,mins){
+  return {name:name||"Student", mins:mins, left:mins*60, ans:{}, marks:[], cur:1,
+          submitted:false, paused:false, started:Date.now()};
+}
+
+const el = id=>document.getElementById(id);
+const esc = t=>String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function norm(t){return String(t||"").toLowerCase().trim().replace(/[.,!?;:'"“”’()]/g,"").replace(/\s+/g," ").trim();}
+function toast(m){const t=el("toast");t.textContent=m;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),2800);}
+function qByN(n){return QS.find(q=>q.n===n);}
+
+function isRight(q){
+  const v=S.ans[q.n];
+  if(v===undefined||v===""||v===null) return false;
+  if(q.type==="mcq") return v===q.a;
+  if(q.type==="gap") return (q.accept||[q.a]).some(a=>norm(a)===norm(v));
+  return String(v)===String(q.a);
+}
+function score(){return QS.filter(isRight).length;}
+
+/* ---------------- Passage ---------------- */
+let evActive = null, vocabActive = null;
+
+function renderPassage(){
+  const html = PARAS.map(p=>{
+    let t = esc(p.t);
+    // user highlights
+    S.marks.forEach(m=>{
+      const e=esc(m);
+      if(t.includes(e)) t = t.split(e).join(`<mark class="u">${e}</mark>`);
+    });
+    // evidence highlight (review mode)
+    if(evActive){
+      const e=esc(evActive);
+      if(t.includes(e)) t = t.split(e).join(`<mark class="ev" id="evmark">${e}</mark>`);
+    }
+    // vocabulary highlight
+    if(vocabActive){
+      vocabActive.forms.forEach(f=>{
+        t = t.replace(new RegExp("\\b("+f+")\\b","g"),'<mark class="vocab">$1</mark>');
+      });
+    }
+    return `<div class="para"><span class="plet">${p.L}</span><p class="ptext" data-l="${p.L}">${t}</p></div>`;
+  }).join("");
+
+  el("left").innerHTML = `
+    <h2 class="ptitle">${TITLE}</h2>
+    <p class="pmeta">Reading passage · ${wordCount()} words · read the paragraph letters carefully</p>
+    ${html}
+    <p class="hlnote">Tip: turn the highlighter on in the top bar, then select any text to mark it.</p>
+    ${S.submitted?vocabHTML():""}`;
+
+  if(S.submitted){
+    document.querySelectorAll(".chip").forEach(c=>{
+      c.onclick=()=>{
+        const v=VOCAB.find(x=>x.w===c.dataset.w);
+        vocabActive = (vocabActive&&vocabActive.w===v.w)?null:v;
+        evActive=null; renderPassage();
+        if(vocabActive){
+          const g=el("gloss"); g.classList.add("show");
+          g.innerHTML=`<span class="w">${v.w}</span><span class="pos">${v.pos}</span>
+            <span class="ar">${v.ar}</span><p class="def">${v.def}</p>`;
+        }
+      };
+    });
+  }
+}
+function vocabHTML(){
+  return `<div class="vocab">
+    <h3>Wordlist words in this passage</h3>
+    <p class="sub">${VOCAB.length} words from B1+ List 1 · tap a word to find it in the text</p>
+    <div class="chips">${VOCAB.map(v=>
+      `<button class="chip${vocabActive&&vocabActive.w===v.w?" on":""}" data-w="${v.w}">${v.w}</button>`).join("")}</div>
+    <div class="gloss${vocabActive?" show":""}" id="gloss"></div>
+  </div>`;
+}
+function wordCount(){return PARAS.map(p=>p.t.trim().split(/\s+/).length).reduce((a,b)=>a+b,0);}
+
+/* ---------------- Questions ---------------- */
+function renderQuestions(){
+  el("right").innerHTML = (S.submitted?resultsHTML():"") + GROUPS.map(g=>`
+    <div class="grp">
+      <h2>${g.title}</h2>
+      <p class="instr">${g.instr}</p>
+      ${g.type==="headings"?headingBox():""}
+      ${g.type==="match"?nameBox():""}
+      ${g.items.map(it=>qHTML(g,it)).join("")}
+    </div>`).join("");
+  wireQuestions();
+}
+function headingBox(){
+  return `<div class="hbox"><h4>List of headings</h4><ol>
+    ${HEADINGS.map(h=>`<li><span>${h.r}</span>${h.t}</li>`).join("")}</ol></div>`;
+}
+function nameBox(){
+  return `<div class="hbox"><h4>List of researchers</h4><ol>
+    ${NAMES.map(h=>`<li><span>${h.r}</span>${h.t}</li>`).join("")}</ol></div>`;
+}
+
+function qHTML(g,it){
+  const v=S.ans[it.n], done=S.submitted, ok=done&&isRight(it);
+  let cls="q"+(done?(ok?" ok":" no"):(S.cur===it.n?" focus":""));
+  let inner="";
+
+  if(g.type==="headings"){
+    inner = `<p class="qt">${it.label}</p>
+      <select data-n="${it.n}" ${done?"disabled":""}>
+        <option value="">— choose —</option>
+        ${HEADINGS.map(h=>`<option value="${h.r}" ${v===h.r?"selected":""}>${h.r} — ${h.t}</option>`).join("")}
+      </select>`;
+  } else if(g.type==="tfng"){
+    inner = `<p class="qt">${it.label}</p>
+      <select data-n="${it.n}" ${done?"disabled":""}>
+        <option value="">— choose —</option>
+        ${["TRUE","FALSE","NOT GIVEN"].map(o=>`<option value="${o}" ${v===o?"selected":""}>${o}</option>`).join("")}
+      </select>`;
+  } else if(g.type==="match"){
+    inner = `<p class="qt">${it.label}</p>
+      <select data-n="${it.n}" ${done?"disabled":""}>
+        <option value="">— choose —</option>
+        ${NAMES.map(h=>`<option value="${h.r}" ${v===h.r?"selected":""}>${h.r} — ${h.t}</option>`).join("")}
+      </select>`;
+  } else if(g.type==="gap"){
+    inner = `<p class="qt">${it.pre}
+      <input class="tin" data-n="${it.n}" value="${esc(v||"")}" placeholder="one or two words"
+        autocomplete="off" spellcheck="false" ${done?"disabled":""}> ${it.post}</p>`;
+  } else {
+    const keys=["A","B","C","D"];
+    inner = `<p class="qt"><b>${it.label}</b></p><div class="mcq">
+      ${it.opts.map((o,k)=>{
+        let c="mo";
+        if(done){ if(k===it.a) c+=" right"; else if(v===k) c+=" wrong"; }
+        else if(v===k) c+=" sel";
+        return `<button class="${c}" data-n="${it.n}" data-k="${k}" ${done?"disabled":""}>
+          <span class="k">${keys[k]}</span><span>${o}</span></button>`;
+      }).join("")}</div>`;
+  }
+
+  let fb="";
+  if(done){
+    let right = g.type==="mcq" ? ["A","B","C","D"][it.a]+" — "+it.opts[it.a] : it.a;
+    let mine  = v===undefined||v===""? "no answer" : (g.type==="mcq"?["A","B","C","D"][v]+" — "+it.opts[v]:v);
+    fb = `<div class="fb ${ok?"":"no"}">
+      <span class="verdict ${ok?"g":"b"}">${ok?"Correct":"Incorrect"}</span>
+      ${ok?"":`You wrote <b>${esc(mine)}</b>. Answer: <b>${esc(right)}</b>. `}${it.why}
+      ${it.ev?`<br><button class="evbtn" data-ev="${esc(it.ev)}">Show me where in the passage</button>`:""}
+    </div>`;
+  }
+
+  return `<div class="${cls}" id="q${it.n}"><span class="qn">${it.n}</span><div class="qb">${inner}${fb}</div></div>`;
+}
+
+function wireQuestions(){
+  document.querySelectorAll("select[data-n]").forEach(s=>{
+    s.onchange=()=>{ S.ans[+s.dataset.n]=s.value; S.cur=+s.dataset.n; renderDots(); };
+  });
+  document.querySelectorAll("input.tin[data-n]").forEach(inp=>{
+    inp.oninput=()=>{ S.ans[+inp.dataset.n]=inp.value; renderDots(); };
+    inp.onfocus=()=>{ S.cur=+inp.dataset.n; renderDots(); };
+  });
+  document.querySelectorAll(".mo[data-n]").forEach(b=>{
+    b.onclick=()=>{ S.ans[+b.dataset.n]=+b.dataset.k; S.cur=+b.dataset.n; renderQuestions(); renderDots(); };
+  });
+  document.querySelectorAll(".evbtn").forEach(b=>{
+    b.onclick=()=>{
+      evActive = b.dataset.ev.replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">");
+      vocabActive=null; renderPassage();
+      showPane("left");
+      const m=el("evmark");
+      if(m) m.scrollIntoView({block:"center"});
+      else toast("That answer is not stated anywhere — that is why it is NOT GIVEN.");
+    };
+  });
+}
+
+/* ---------------- Results ---------------- */
+function band(c){
+  if(c>=19) return "Band 8 range";
+  if(c>=17) return "Band 7 – 7.5 range";
+  if(c>=14) return "Band 6.5 range";
+  if(c>=12) return "Band 6 range";
+  if(c>=10) return "Band 5.5 range";
+  if(c>=8)  return "Band 5 range";
+  return "Below Band 5";
+}
+function resultsHTML(){
+  const c=score(), pct=Math.round(c/NQ*100);
+  const used=S.mins*60-S.left, mins=Math.floor(used/60), secs=used%60;
+  const byType={};
+  GROUPS.forEach(g=>{
+    byType[g.title]={c:g.items.filter(isRight).length,t:g.items.length,
+      name:g.title.replace(/Questions .*/,"")||g.title};
+  });
+  const labels={headings:"Matching headings",tfng:"True / False / Not Given",match:"Matching researchers",gap:"Sentence completion",mcq:"Multiple choice"};
+  return `<div class="res">
+    <div class="row">
+      <div class="n">${c}<small>/${NQ}</small></div>
+      <div class="band"><div class="l">Indicative band</div><div class="v">${band(c)}</div></div>
+      <div class="meta">${pct}% correct<br>Time used: ${mins}m ${String(secs).padStart(2,"0")}s<br>${S.name}</div>
+    </div>
+    <div style="margin-top:16px">
+      ${GROUPS.map(g=>{
+        const cc=g.items.filter(isRight).length, tt=g.items.length;
+        const cols={headings:"var(--hl-1)",tfng:"var(--hl-5)",match:"var(--hl-6)",gap:"var(--hl-2)",mcq:"var(--hl-4)"};
+        return `<div class="bt"><span class="name">${labels[g.type]}</span>
+          <span class="track"><span class="fill" style="width:${Math.round(cc/tt*100)}%;background:${cols[g.type]}"></span></span>
+          <span class="num">${cc}/${tt}</span></div>`;
+      }).join("")}
+    </div>
+    <p class="cap">Guide only. A real IELTS Reading band comes from 40 questions across three longer passages, so treat this as practice feedback, not a score.</p>
+    <div class="btnrow" style="margin-top:14px">
+      <button class="btn sm" id="retry">Try again</button>
+      <button class="btn ghost sm" id="save2">Save results</button>
+      <button class="btn ghost sm" id="print">Print</button>
+    </div>
+  </div>`;
+}
+
+/* ---------------- Navigator ---------------- */
+function renderDots(){
+  el("dots").innerHTML = QS.map(q=>{
+    let c="dot";
+    const answered = S.ans[q.n]!==undefined && S.ans[q.n]!=="";
+    if(S.submitted) c += isRight(q)?" ok":" no";
+    else if(answered) c+=" done";
+    if(S.cur===q.n) c+=" now";
+    return `<button class="${c}" data-n="${q.n}">${q.n}</button>`;
+  }).join("");
+  document.querySelectorAll(".dot").forEach(d=>{
+    d.onclick=()=>{
+      S.cur=+d.dataset.n; showPane("right");
+      const t=el("q"+d.dataset.n);
+      if(t) t.scrollIntoView({block:"center"});
+      renderDots();
+      if(!S.submitted) renderQuestions();
+    };
+  });
+}
+
+/* ---------------- Timer ---------------- */
+let tick=null;
+function startTimer(){
+  clearInterval(tick);
+  tick=setInterval(()=>{
+    if(S.paused||S.submitted) return;
+    S.left--;
+    paintClock();
+    if(S.left===300) toast("Five minutes left.");
+    if(S.left===60) toast("One minute left.");
+    if(S.left<=0){ clearInterval(tick); toast("Time is up — your answers have been submitted."); doSubmit(true); }
+  },1000);
+  paintClock();
+}
+function paintClock(){
+  const m=Math.floor(Math.max(0,S.left)/60), s=Math.max(0,S.left)%60;
+  const c=el("clock");
+  c.textContent=`${m}:${String(s).padStart(2,"0")}`;
+  c.className="clock"+(S.left<=60?" crit":(S.left<=300?" warn":""));
+}
+
+/* ---------------- Submit ---------------- */
+function doSubmit(auto){
+  const blank = QS.filter(q=>S.ans[q.n]===undefined||S.ans[q.n]==="").length;
+  if(!auto && blank>0){
+    if(!confirm(`${blank} question${blank>1?"s are":" is"} still blank. Submit anyway?`)) return;
+  }
+  S.submitted=true; clearInterval(tick);
+  el("submit").innerHTML="Submitted";
+  el("submit").disabled=true;
+  el("pause").disabled=true;
+  renderQuestions(); renderPassage(); renderDots();
+  showPane("right");
+  el("right").scrollTop=0;
+  wireResults();
+}
+function wireResults(){
+  const r=el("retry"); if(r) r.onclick=()=>location.reload();
+  const s=el("save2"); if(s) s.onclick=saveJSON;
+  const p=el("print"); if(p) p.onclick=()=>window.print();
+}
+
+/* ---------------- Highlighter ---------------- */
+let hlOn=false;
+el("hlbtn").onclick=()=>{
+  hlOn=!hlOn;
+  el("hlbtn").classList.toggle("on",hlOn);
+  toast(hlOn?"Highlighter on — select text in the passage.":"Highlighter off.");
+};
+el("clearhl").onclick=()=>{ S.marks=[]; renderPassage(); toast("Highlights cleared."); };
+document.addEventListener("mouseup",()=>{
+  if(!hlOn||!S) return;
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed) return;
+  const node=sel.anchorNode;
+  if(!node||!el("left").contains(node.nodeType===3?node.parentNode:node)) return;
+  const txt=sel.toString().trim();
+  if(txt.length<3||txt.length>320) return;
+  if(!S.marks.includes(txt)) S.marks.push(txt);
+  sel.removeAllRanges();
+  renderPassage();
+});
+
+/* ---------------- Resizable split (both panels always visible) ---------------- */
+function showPane(){ /* both panels are on screen — nothing to switch */ }
+
+(function(){
+  const sp=el("split"), dv=el("divider");
+  let sx=50, sy=44, dragging=false;
+  const vertical=()=>innerWidth<=860;
+  function set(p){
+    p=Math.min(80,Math.max(20,p));
+    if(vertical()){ sy=p; sp.style.setProperty("--sy",p+"%"); }
+    else { sx=p; sp.style.setProperty("--sx",p+"%"); }
+  }
+  function fromEvent(e){
+    const r=sp.getBoundingClientRect();
+    set(vertical() ? (e.clientY-r.top)/r.height*100 : (e.clientX-r.left)/r.width*100);
+  }
+  dv.addEventListener("pointerdown",e=>{
+    dragging=true; dv.classList.add("drag");
+    dv.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  dv.addEventListener("pointermove",e=>{ if(dragging) fromEvent(e); });
+  ["pointerup","pointercancel"].forEach(ev=>dv.addEventListener(ev,()=>{
+    dragging=false; dv.classList.remove("drag");
+  }));
+  dv.addEventListener("dblclick",()=>{
+    sp.style.setProperty("--sx","50%"); sp.style.setProperty("--sy","44%");
+    sx=50; sy=44; toast("Panels reset to an even split.");
+  });
+  dv.addEventListener("keydown",e=>{
+    const cur=vertical()?sy:sx;
+    if(e.key==="ArrowLeft"||e.key==="ArrowUp"){ set(cur-4); e.preventDefault(); }
+    if(e.key==="ArrowRight"||e.key==="ArrowDown"){ set(cur+4); e.preventDefault(); }
+  });
+})();
+
+/* ---------------- Save / load ---------------- */
+function saveJSON(){
+  const d={app:"Reading Test 1 — The Science of Revision",version:1,saved:new Date().toISOString(),state:S};
+  const b=new Blob([JSON.stringify(d,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(b);
+  a.download=`reading-test-1-${(S.name||"student").replace(/\s+/g,"-").toLowerCase()}.json`;
+  a.click(); URL.revokeObjectURL(a.href);
+  toast("Saved to your downloads folder.");
+}
+el("save").onclick=()=>S?saveJSON():toast("Start the test first.");
+el("load").onclick=()=>el("loadfile").click();
+el("loadfile").addEventListener("change",e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const d=JSON.parse(rd.result);
+      if(!d.state||typeof d.state.left!=="number") throw 0;
+      S=d.state; el("ov").style.display="none";
+      renderPassage(); renderQuestions(); renderDots();
+      if(S.submitted){ el("submit").innerHTML="Submitted"; el("submit").disabled=true; wireResults(); }
+      else startTimer();
+      toast("Test loaded.");
+    }catch(err){ toast("That file could not be read."); }
+  };
+  rd.readAsText(f); e.target.value="";
+});
+
+el("pause").onclick=()=>{
+  if(S.submitted) return;
+  S.paused=!S.paused;
+  el("pause").textContent=S.paused?"Resume":"Pause";
+  el("pause").classList.toggle("on",S.paused);
+  toast(S.paused?"Timer paused.":"Timer running.");
+};
+el("submit").onclick=()=>doSubmit(false);
+
+/* ---------------- Start overlay ---------------- */
+let chosenMins=15;
+function renderStart(){
+  el("ov").innerHTML=`
+  <div class="ovbox">
+    <h2>reading test 1</h2>
+    <p class="k">B1+ Vocabulary List 1 · "Education" · ${wordCount()} words · 20 questions</p>
+    <p>One passage, five paragraphs, and five IELTS question types — matching headings,
+    True/False/Not Given, matching researchers, sentence completion and multiple choice.</p>
+    <ul>
+      <li>Answer in the right-hand panel; the passage stays on the left.</li>
+      <li>Use the highlighter in the top bar while you read.</li>
+      <li>After you submit, every question shows you <b>where</b> the answer is in the text.</li>
+    </ul>
+    <div class="field">
+      <label for="who">Your name</label>
+      <input id="who" placeholder="Type your name" maxlength="40" autocomplete="off">
+    </div>
+    <div class="field">
+      <label>Time limit</label>
+      <div class="timeopt">
+        <button data-m="10">10 min</button>
+        <button data-m="15" class="on">15 min</button>
+        <button data-m="20">20 min</button>
+        <button data-m="0">No limit</button>
+      </div>
+    </div>
+    <div class="btnrow">
+      <button class="btn" id="begin">Start reading</button>
+      <button class="btn ghost sm" id="load2">Load saved test</button>
+    </div>
+  </div>`;
+  document.querySelectorAll(".timeopt button").forEach(b=>{
+    b.onclick=()=>{ chosenMins=+b.dataset.m;
+      document.querySelectorAll(".timeopt button").forEach(x=>x.classList.remove("on"));
+      b.classList.add("on"); };
+  });
+  el("load2").onclick=()=>el("loadfile").click();
+  el("begin").onclick=()=>{
+    S=newState(el("who").value.trim(), chosenMins||999);
+    if(chosenMins===0){ el("clock").textContent="—"; el("pause").style.display="none"; }
+    el("ov").style.display="none";
+    renderPassage(); renderQuestions(); renderDots();
+    if(chosenMins>0) startTimer();
+  };
+}
+renderStart();
+
+</script>
+</body>
+</html>
